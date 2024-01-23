@@ -205,6 +205,10 @@ require('lazy').setup({
     priority = 1000,
     config = function()
       require('kanagawa').setup({
+        commentStyle = { italic = false },
+        statementStyle = { bold = false },
+        keywordStyle = { italic = false, bold = false},
+        functionStyle = { italic = false },
         theme = 'wave',
       })
       vim.cmd.colorscheme 'kanagawa'
@@ -327,6 +331,8 @@ vim.o.termguicolors = true
 
 -- colorscheme (kanagawa) theme fix
 vim.o.background = ""
+
+vim.o.linespace=2
 
 -- [[ Basic Keymaps ]]
 
