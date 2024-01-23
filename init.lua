@@ -60,6 +60,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+
 -- [[ Configure plugins ]]
 -- NOTE: Here is where you install your plugins.
 --  You can configure plugins using the `config` key.
@@ -189,12 +190,26 @@ require('lazy').setup({
     },
   },
 
+  -- {
+  --   -- Theme inspired by Atom
+  --   'navarasu/onedark.nvim',
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd.colorscheme 'onedark'
+  --   end,
+  -- },
+
   {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
+    'rebelot/kanagawa.nvim',
+    lazy = false,
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'onedark'
+      require('kanagawa').setup({
+        theme = 'wave',
+      })
+      vim.cmd.colorscheme 'kanagawa'
+      -- vim.cmd.colorscheme 'kanagawa-wave'
+      -- require('kanagawa').load('dragon')
     end,
   },
 
@@ -310,7 +325,11 @@ vim.o.completeopt = 'menuone,noselect'
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
+-- colorscheme (kanagawa) theme fix
+vim.o.background = ""
+
 -- [[ Basic Keymaps ]]
+
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
@@ -661,6 +680,17 @@ cmp.setup {
     { name = 'path' },
   },
 }
+
+
+vim.o.backspace = [[indent,eol,start]]
+
+-- vim.keymap.set('n', '<C-H>', 'a<C-W><esc>', { noremap = true })
+-- vim.keymap.set('i', 'C-?', '<C-w>', { noremap = true })
+vim.keymap.set('i', '<C-BS>', '<C-w>', { noremap = true })
+vim.keymap.set('i', '<C-H>', '<C-w>', { noremap = true })
+-- vim.keymap.set('i', '<C->', '<C-w>', { noremap = true })
+
+-- inoremap <Char-0x07F> <BS>
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
