@@ -312,32 +312,6 @@ require('lazy').setup({
     'mrcjkb/rustaceanvim',
     version = '^4', -- Recommended
     ft = { 'rust' },
-    -- opts = {
-    --   tools = {
-    --     servers = {
-    --       rust_analyzer = {
-    --         checkOnSave = {
-    --           command = "clippy",
-    --         },
-    --       },
-    --     },
-    --   },
-    -- },
-
-    -- ["rust-analyzer"] = {
-    --   checkOnSave = {
-    --     command = "clippy",
-    --   },
-    -- },
-    -- config = function()
-    --   require("rustaceanvim").setup({
-    --     tools = {
-    --       hover_actions = {
-    --         auto_focus = true,
-    --       },
-    --     },
-    --   })
-    -- end,
   },
 
 
@@ -819,18 +793,19 @@ vim.keymap.set('t', '<esc>', '<C-\\><C-N>', { noremap = true })
 
 --
 -- Show NvimTree
-vim.keymap.set('n', '<leader>tt', '<cmd>NvimTreeToggle<cr>', { noremap = true });
+vim.keymap.set('n', '<leader>tt', '<cmd>NvimTreeToggle<cr>', {
+  noremap = true,
+  desc = "toggle NvimTree",
+});
 
 --
 -- Custom Build Commands
 -- vim.keymap.set('n', '<C-S-B>', 
 
-
-
 --
 -- Testing - buffer nav
-vim.keymap.set('n', '^I', ':bnext', { noremap = true })
-vim.keymap.set('n', '<C-S-Tab>', ':bprev', { noremap = true })
+-- vim.keymap.set('n', '^I', ':bnext', { noremap = true })
+-- vim.keymap.set('n', '<C-S-Tab>', ':bprev', { noremap = true })
 
 --
 --
