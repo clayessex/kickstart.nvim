@@ -286,7 +286,17 @@ require('lazy').setup({
 
   {
     -- ToggleTerm
-    {'akinsho/toggleterm.nvim', version = "*", config = true}
+    {
+      'akinsho/toggleterm.nvim',
+      version = "*",
+      config = function()
+        require("toggleterm").setup({
+          open_mapping = [[<C-t>]],
+          direction = 'float',
+          start_in_insert = true,
+        })
+      end,
+    }
   },
 
   {
@@ -788,11 +798,6 @@ vim.g.rustaceanvim = {
 --
 
 --
--- ToggleTerm
-vim.keymap.set('n', '<leader>tf', [[<cmd>v:count1 . "ToggleTerm direction=float<cr>i"]], { noremap = true })
-vim.keymap.set('t', '<leader>tf>', "<C-\\><C-N><cmd>ToggleTerm direction=float<cr>", { noremap = true })
-
---
 -- Navigate Windows (including terminal)
 vim.keymap.set('n', '<M-j>', '<C-w>j', { noremap = true })
 vim.keymap.set('n', '<M-k>', '<C-w>k', { noremap = true })
@@ -814,7 +819,7 @@ vim.keymap.set('t', '<esc>', '<C-\\><C-N>', { noremap = true })
 
 --
 -- Show NvimTree
--- vim.keymap.set('n', '<C-S-E>', '<cmd>NvimTreeOpen', { noremap = true });
+vim.keymap.set('n', '<leader>tt', '<cmd>NvimTreeToggle<cr>', { noremap = true });
 
 --
 -- Custom Build Commands
