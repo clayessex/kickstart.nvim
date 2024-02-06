@@ -273,6 +273,64 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
+  {
+    "nvim-tree/nvim-tree.lua",
+    config = function()
+      require("nvim-tree").setup({
+        view = {
+          width = 20
+        },
+      })
+    end,
+  },
+
+  {
+    -- ToggleTerm
+    {'akinsho/toggleterm.nvim', version = "*", config = true}
+  },
+
+  {
+    "kylechui/nvim-surround",
+    version = "*",
+    event = "VeryLazy",
+    config = function()
+        require("nvim-surround").setup()
+    end
+  },
+
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^4', -- Recommended
+    ft = { 'rust' },
+    -- opts = {
+    --   tools = {
+    --     servers = {
+    --       rust_analyzer = {
+    --         checkOnSave = {
+    --           command = "clippy",
+    --         },
+    --       },
+    --     },
+    --   },
+    -- },
+
+    -- ["rust-analyzer"] = {
+    --   checkOnSave = {
+    --     command = "clippy",
+    --   },
+    -- },
+    -- config = function()
+    --   require("rustaceanvim").setup({
+    --     tools = {
+    --       hover_actions = {
+    --         auto_focus = true,
+    --       },
+    --     },
+    --   })
+    -- end,
+  },
+
+
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -332,7 +390,11 @@ vim.o.termguicolors = true
 -- colorscheme (kanagawa) theme fix
 vim.o.background = ""
 
-vim.o.linespace=2
+vim.o.linespace = 2
+
+vim.o.backspace = [[indent,eol,start]]
+
+vim.o.foldenable = false
 
 -- [[ Basic Keymaps ]]
 
@@ -581,7 +643,16 @@ require('which-key').register({
 
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
-require('mason').setup()
+require('mason').setup({
+  ui = {
+    icons = {
+      package_installed = "",
+      package_pending = "",
+      package_uninstalled = "",
+    }
+  }
+})
+
 require('mason-lspconfig').setup()
 
 -- Enable the following language servers
@@ -608,6 +679,14 @@ local servers = {
       -- diagnostics = { disable = { 'missing-fields' } },
     },
   },
+  -- rust_analyzer = {
+    -- ["rust_analyzer"] = function() end,
+    -- ["rust-analyzer"] = {
+    --   checkOnSave = {
+    --     command = "clippy",
+    --   },
+    -- },
+  -- },
 }
 
 -- Setup neovim lua configuration
@@ -688,15 +767,83 @@ cmp.setup {
 }
 
 
-vim.o.backspace = [[indent,eol,start]]
+--
+-- rustaceanvim
+vim.g.rustaceanvim = {
+  server = {
+    on_attach = on_attach,
+    settings = {
+      ["rust-analyzer"] = {
+        checkOnSave = {
+          command = "clippy",
+        },
+      },
+    },
+  },
+}
+
+
+--
+-- Keymaps
+--
+
+--
+-- ToggleTerm
+vim.keymap.set('n', '<leader>tf', [[<cmd>v:count1 . "ToggleTerm direction=float<cr>i"]], { noremap = true })
+vim.keymap.set('t', '<leader>tf>', "<C-\\><C-N><cmd>ToggleTerm direction=float<cr>", { noremap = true })
+
+--
+-- Navigate Windows (including terminal)
+vim.keymap.set('n', '<M-j>', '<C-w>j', { noremap = true })
+vim.keymap.set('n', '<M-k>', '<C-w>k', { noremap = true })
+vim.keymap.set('n', '<M-l>', '<C-w>l', { noremap = true })
+vim.keymap.set('n', '<M-h>', '<C-w>h', { noremap = true })
+
+vim.keymap.set('i', '<M-j>', '<C-\\><C-N><C-w>j', { noremap = true })
+vim.keymap.set('i', '<M-k>', '<C-\\><C-N><C-w>k', { noremap = true })
+vim.keymap.set('i', '<M-l>', '<C-\\><C-N><C-w>l', { noremap = true })
+vim.keymap.set('i', '<M-h>', '<C-\\><C-N><C-w>h', { noremap = true })
+
+vim.keymap.set('t', '<M-j>', '<C-\\><C-N><C-w>j', { noremap = true })
+vim.keymap.set('t', '<M-k>', '<C-\\><C-N><C-w>k', { noremap = true })
+vim.keymap.set('t', '<M-l>', '<C-\\><C-N><C-w>l', { noremap = true })
+vim.keymap.set('t', '<M-h>', '<C-\\><C-N><C-w>h', { noremap = true })
+
+vim.keymap.set('t', '<esc>', '<C-\\><C-N>', { noremap = true })
+
+
+--
+-- Show NvimTree
+-- vim.keymap.set('n', '<C-S-E>', '<cmd>NvimTreeOpen', { noremap = true });
+
+--
+-- Custom Build Commands
+-- vim.keymap.set('n', '<C-S-B>', 
+
+
+
+--
+-- Testing - buffer nav
+vim.keymap.set('n', '^I', ':bnext', { noremap = true })
+vim.keymap.set('n', '<C-S-Tab>', ':bprev', { noremap = true })
+
+--
+--
+-- CTRL-BS Testing (NOT Working)
+-- Neovim (unlike vim) treats <C-H> and <C-?> as the same key
 
 -- vim.keymap.set('n', '<C-H>', 'a<C-W><esc>', { noremap = true })
+--
+-- vim.keymap.set('i', '<C-{C-v}{BS}>', '<C-w>', { noremap = true })
 -- vim.keymap.set('i', 'C-?', '<C-w>', { noremap = true })
-vim.keymap.set('i', '<C-BS>', '<C-w>', { noremap = true })
-vim.keymap.set('i', '<C-H>', '<C-w>', { noremap = true })
+-- vim.keymap.set('i', 'C-', '<C-w>', { noremap = true })
+-- vim.keymap.set('i', '<C-BS>', '<C-w>', { noremap = true })
+-- vim.keymap.set('i', '<C-<Char-0x07F>>', '<C-w>', { noremap = true })
+-- vim.keymap.set('i', '<C-<Char-0x008>>', '<C-w>', { noremap = true })
+-- vim.keymap.set('i', '<C-H>', '<C-w>', { noremap = true })
 -- vim.keymap.set('i', '<C->', '<C-w>', { noremap = true })
-
 -- inoremap <Char-0x07F> <BS>
+
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
