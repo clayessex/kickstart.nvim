@@ -820,6 +820,10 @@ vim.keymap.set('n', '<leader>X', ':bd!<cr>', { noremap = true, desc = "Close buf
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { noremap = true, desc = "Move block down" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { noremap = true, desc = "Move block up" })
 
+-- Reselect after visual mode shift
+vim.keymap.set("v", "<", "<gv", { noremap = true, desc = "Shift left and reselect" })
+vim.keymap.set("v", ">", ">gv", { noremap = true, desc = "Shift right and reselect" })
+
 -- Recenter on 1/2 page up/down
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
