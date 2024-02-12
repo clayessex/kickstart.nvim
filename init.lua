@@ -810,6 +810,8 @@ vim.keymap.set('n', '<leader>tt', '<cmd>NvimTreeToggle<cr>', {
   desc = "toggle NvimTree",
 })
 
+-- Toggle relative numbering
+vim.keymap.set('n', '<leader>tr', ':set relativenumber!<cr>', { noremap = true, desc = "toggle relative numbering" })
 
 
 -- Close current buffer
