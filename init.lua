@@ -44,6 +44,10 @@ P.S. You can delete this when you're done too. It's your config now :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+vim.g.loaded_netrw       = 1
+vim.g.loaded_netrwPlugin = 1
+
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -237,7 +241,11 @@ require('lazy').setup({
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help ibl`
     main = 'ibl',
-    opts = {},
+    opts = {
+      scope = {
+        enabled = false,
+      },
+    },
   },
 
   -- "gc" to comment visual regions/lines
@@ -278,7 +286,11 @@ require('lazy').setup({
     config = function()
       require("nvim-tree").setup({
         view = {
-          width = 20
+          width = 25
+        },
+        filters = {
+          dotfiles = true,
+          -- git_ignored = false,
         },
       })
     end,
@@ -796,7 +808,28 @@ vim.keymap.set('t', '<esc>', '<C-\\><C-N>', { noremap = true })
 vim.keymap.set('n', '<leader>tt', '<cmd>NvimTreeToggle<cr>', {
   noremap = true,
   desc = "toggle NvimTree",
-});
+})
+
+
+
+-- Close current buffer
+vim.keymap.set('n', '<leader>x', ':bd<cr>', { noremap = true, desc = "Close buffer" })
+vim.keymap.set('n', '<leader>X', ':bd!<cr>', { noremap = true, desc = "Close buffer" })
+
+-- Move lines in visual
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { noremap = true, desc = "Move block down" })
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { noremap = true, desc = "Move block up" })
+
+-- Recenter on 1/2 page up/down
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+
+-- Write buffer on CRTL-S
+vim.keymap.set("n", "<C-s>", ":w<cr>");
+
+-- Search and Replace word under cursor
+vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("x", "<leader>s", '"zy<Esc>:%s/<C-R>z/<C-R>z/g<Left><Left>')
 
 --
 -- Custom Build Commands
