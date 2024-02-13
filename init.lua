@@ -320,11 +320,11 @@ require('lazy').setup({
     end
   },
 
-  {
-    'mrcjkb/rustaceanvim',
-    version = '^4', -- Recommended
-    ft = { 'rust' },
-  },
+  -- {
+  --   'mrcjkb/rustaceanvim',
+  --   version = '^4', -- Recommended
+  --   ft = { 'rust' },
+  -- },
 
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
@@ -765,18 +765,18 @@ cmp.setup {
 
 --
 -- rustaceanvim
-vim.g.rustaceanvim = {
-  server = {
-    on_attach = on_attach,
-    settings = {
-      ["rust-analyzer"] = {
-        checkOnSave = {
-          command = "clippy",
-        },
-      },
-    },
-  },
-}
+-- vim.g.rustaceanvim = {
+--   server = {
+--     on_attach = on_attach,
+--     settings = {
+--       ["rust-analyzer"] = {
+--         checkOnSave = {
+--           command = "clippy",
+--         },
+--       },
+--     },
+--   },
+-- }
 
 
 --
